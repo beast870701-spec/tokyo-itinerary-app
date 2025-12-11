@@ -4,25 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>東京旅遊規劃 App (完整行程管理 - 持久化)</title>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // 定義您的淺藍色為 app-primary
-                        'app-primary': {
-                            50: '#F0F7FF',    // 非常淺
-                            100: '#E1F0FF',   // 淺色背景
-                            200: '#C4E1FF',   // 您指定的主色 (用於邊框/淺色按鈕)
-                            600: '#3D9AE7',   // 深一點的主色 (用於文字/按鈕)
-                            700: '#307ACC',   // 更深的主色 (用於強調)
-                        },
-                    }
-                }
-            }
-        }
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -101,7 +82,7 @@
 <body>
     <div id="app" class="app-shell">
 
-        <header class="p-4 bg-white text-app-primary-600 shadow-md sticky top-0 z-20 border-b border-neutral-200">
+        <header class="p-4 bg-white text-violet-600 shadow-md sticky top-0 z-20 border-b border-neutral-200">
             <h1 class="text-xl font-bold text-center">東京旅程助手</h1>
         </header>
 
@@ -112,7 +93,7 @@
                     :key="date"
                     @click="currentDate = date"
                     :class="{
-                        'bg-app-primary-100 text-app-primary-700 border-b-2 border-app-primary-600': currentDate === date,
+                        'bg-violet-100 text-violet-700 border-b-2 border-violet-600': currentDate === date,
                         'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 transition border-b-2 border-transparent': currentDate !== date
                     }"
                     class="date-item flex-shrink-0 text-center py-2 px-3 rounded-xl text-sm font-semibold transition duration-300"
@@ -126,13 +107,13 @@
             
             <div v-if="activeTab === 'itinerary'">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-app-primary-700">
+                    <h2 class="text-2xl font-bold text-violet-700">
                         {{ currentDate }} 行程表
                         <span class="text-base font-normal text-neutral-500 ml-2">東京 {{ simulatedWeather }}</span>
                     </h2>
                     <button 
                         @click="openAddItemModal" 
-                        class="bg-app-primary-600 hover:bg-app-primary-500 text-white p-2 rounded-full shadow-lg transition duration-200 flex items-center">
+                        class="bg-violet-600 hover:bg-violet-500 text-white p-2 rounded-full shadow-lg transition duration-200 flex items-center">
                         <i class="ph ph-plus text-xl"></i>
                     </button>
                 </div>
@@ -145,14 +126,14 @@
                             :class="{'border-b border-neutral-200': !collapsedFlights[flight.id]}"
                         >
                             <div class="flex items-center">
-                                <i class="text-xl mr-2" :class="flight.type === '去程 (DEPARTURE)' ? 'ph ph-airplane-takeoff text-app-primary-600' : 'ph ph-airplane-landing text-app-primary-600'"></i>
+                                <i class="text-xl mr-2" :class="flight.type === '去程 (DEPARTURE)' ? 'ph ph-airplane-takeoff text-violet-600' : 'ph ph-airplane-landing text-violet-600'"></i>
                                 <span class="text-lg text-neutral-900">{{ flight.type }}：{{ flight.origin }} → {{ flight.destination }}</span>
                             </div>
                             <i class="ph text-lg text-neutral-500 transition-transform duration-300" :class="{'ph-caret-up': !collapsedFlights[flight.id], 'ph-caret-down': collapsedFlights[flight.id]}"></i>
                         </button>
                         <transition name="collapse">
                             <div v-if="!collapsedFlights[flight.id]" class="p-4 pt-0">
-                                <div class="p-4 flex border border-app-primary-100 rounded-xl">
+                                <div class="p-4 flex border border-violet-100 rounded-xl">
                                     <div class="flex-grow">
                                         <div class="flex items-center space-x-2 mb-3">
                                             <div class="flex flex-col">
@@ -169,7 +150,7 @@
                                     <div class="w-24 flex-shrink-0 ticket-perforation pl-3 ml-3 flex flex-col justify-between">
                                         <div class="text-right mb-2">
                                             <span class="text-xs text-neutral-500 block">航班號碼</span>
-                                            <span class="text-xl font-extrabold text-app-primary-700 block">{{ flight.flightNum }}</span>
+                                            <span class="text-xl font-extrabold text-violet-700 block">{{ flight.flightNum }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -179,18 +160,18 @@
                 </section>
 
 
-                <div v-if="currentDate === '12/18 (四)'" class="bg-white p-4 rounded-xl border-2 border-app-primary-300 mb-6 shadow-sm">
-                    <h3 class="font-semibold text-lg mb-3 text-app-primary-700">12/18 行程方案選擇</h3>
+                <div v-if="currentDate === '12/18 (三)'" class="bg-white p-4 rounded-xl border-2 border-violet-300 mb-6 shadow-sm">
+                    <h3 class="font-semibold text-lg mb-3 text-violet-700">12/18 行程方案選擇</h3>
                     <div class="flex space-x-3">
-                        <button @click="dayTwoOption = 'A'" :class="{'bg-app-primary-600 text-white': dayTwoOption === 'A', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-app-primary-100': dayTwoOption !== 'A'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
+                        <button @click="dayTwoOption = 'A'" :class="{'bg-violet-600 text-white': dayTwoOption === 'A', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-violet-100': dayTwoOption !== 'A'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
                             方案 A<br>(先去山中湖)
                         </button>
-                        <button @click="dayTwoOption = 'B'" :class="{'bg-app-primary-600 text-white': dayTwoOption === 'B', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-app-primary-100': dayTwoOption !== 'B'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
+                        <button @click="dayTwoOption = 'B'" :class="{'bg-violet-600 text-white': dayTwoOption === 'B', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-violet-100': dayTwoOption !== 'B'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
                             方案 B<br>(直奔 Outlet)
                         </button>
                     </div>
                     <p class="text-xs text-neutral-500 mt-3 p-1 bg-neutral-50 rounded">
-                        目前選定: <span class="font-bold text-app-primary-600">{{ dayTwoOption === 'A' ? '方案 A (經過山中湖)' : '方案 B (直接前往御殿場 Outlet)' }}</span>
+                        目前選定: <span class="font-bold text-violet-600">{{ dayTwoOption === 'A' ? '方案 A (經過山中湖)' : '方案 B (直接前往御殿場 Outlet)' }}</span>
                     </p>
                 </div>
                 
@@ -206,7 +187,7 @@
                             <span class="text-lg font-black text-neutral-900">{{ item.time }}</span>
                             
                             <div v-if="item.duration !== 'N/A' && item.duration !== '結束'" 
-                                 class="absolute top-12 left-full -translate-x-1/2 mt-4 z-10 bg-app-primary-50 text-app-primary-700 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap shadow-sm border border-app-primary-200">
+                                 class="absolute top-12 left-full -translate-x-1/2 mt-4 z-10 bg-violet-50 text-violet-700 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap shadow-sm border border-violet-200">
                                 <i class="ph ph-clock text-xs align-middle mr-0.5"></i>
                                 {{ item.duration }}
                             </div>
@@ -230,7 +211,7 @@
                                         </div>
                                     </button>
                                     
-                                    <button @click.stop="editItem(item)" class="text-app-primary-600 hover:text-app-primary-500 p-2 rounded-full hover:bg-neutral-100 transition flex-shrink-0">
+                                    <button @click.stop="editItem(item)" class="text-violet-600 hover:text-violet-500 p-2 rounded-full hover:bg-neutral-100 transition flex-shrink-0">
                                         <i class="ph ph-note-pencil text-lg"></i>
                                     </button>
                                 </div>
@@ -240,7 +221,7 @@
                                         <h4 class="text-sm font-bold text-neutral-600 mb-2">備註與細節 (可編輯)</h4>
                                         <textarea
                                             v-model="item.note"
-                                            class="w-full p-2 text-sm bg-neutral-50 border border-neutral-300 rounded-lg h-24 focus:ring-app-primary-500 focus:border-app-primary-500 transition resize-none whitespace-pre-wrap"
+                                            class="w-full p-2 text-sm bg-neutral-50 border border-neutral-300 rounded-lg h-24 focus:ring-violet-500 focus:border-violet-500 transition resize-none whitespace-pre-wrap"
                                             placeholder="在此輸入您想紀錄的細節、訂位號碼、注意事項等..."
                                             @input="saveItineraryLocally"
                                         ></textarea>
@@ -261,7 +242,7 @@
 
                 <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4 z-30">
                     <div class="bg-white p-6 rounded-xl w-full max-w-sm shadow-2xl border border-neutral-200">
-                        <h3 class="text-xl font-bold mb-4" :class="editingItem ? 'text-app-primary-600' : 'text-green-600'">
+                        <h3 class="text-xl font-bold mb-4" :class="editingItem ? 'text-violet-600' : 'text-green-600'">
                             {{ editingItem ? '編輯行程' : '新增行程' }}
                         </h3>
 
@@ -298,7 +279,7 @@
                             
                             <div class="flex ml-auto space-x-3">
                                 <button @click="closeModal" class="px-4 py-2 text-neutral-600 bg-neutral-200 rounded-xl hover:bg-neutral-300 transition">取消</button>
-                                <button @click="saveItem" class="px-4 py-2 bg-app-primary-600 text-white font-bold rounded-xl hover:bg-app-primary-500 transition">
+                                <button @click="saveItem" class="px-4 py-2 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-500 transition">
                                     {{ editingItem ? '儲存變更' : '新增行程' }}
                                 </button>
                             </div>
@@ -308,20 +289,20 @@
             </div>
 
             <div v-else-if="activeTab === 'ledger'">
-                <h2 class="text-2xl font-bold mb-4 text-app-primary-700">旅遊記帳本</h2>
+                <h2 class="text-2xl font-bold mb-4 text-violet-700">旅遊記帳本</h2>
                 
-                <div class="bg-white text-neutral-900 p-4 rounded-xl border-2 border-app-primary-500 shadow-lg mb-6 flex justify-between items-center">
+                <div class="bg-white text-neutral-900 p-4 rounded-xl border-2 border-violet-500 shadow-lg mb-6 flex justify-between items-center">
                     <div>
                         <p class="text-sm font-medium opacity-80 text-neutral-600">總計已花費金額 (TWD)</p>
-                        <p class="text-4xl font-extrabold mt-1 text-app-primary-600">
+                        <p class="text-4xl font-extrabold mt-1 text-violet-600">
                             {{ totalTwdSpent.toFixed(0).toLocaleString() }}
                         </p>
                     </div>
-                    <i class="ph ph-receipt-magnifying-glass text-5xl opacity-80 text-app-primary-500"></i>
+                    <i class="ph ph-receipt-magnifying-glass text-5xl opacity-80 text-violet-500"></i>
                 </div>
 
                 <div class="bg-white p-4 rounded-xl shadow-md mb-6 border border-neutral-200">
-                    <h3 class="font-semibold text-lg mb-3 text-app-primary-600">新增支出 (雙向換算)</h3>
+                    <h3 class="font-semibold text-lg mb-3 text-violet-600">新增支出 (雙向換算)</h3>
                     
                     <div class="mb-4 p-2 bg-yellow-100 rounded-lg border border-yellow-300 text-sm font-medium text-yellow-800">
                         <i class="ph ph-arrow-left-right text-base align-middle mr-1 text-yellow-600"></i>
@@ -338,15 +319,15 @@
                         class="w-full p-2 bg-neutral-50 border border-neutral-300 text-neutral-900 rounded-lg mb-3" 
                         placeholder="請輸入日幣金額">
 
-                    <div class="bg-app-primary-100 p-3 rounded-lg mb-4 border border-app-primary-300">
-                        <label class="block text-sm font-medium text-app-primary-700">金額 (TWD 台幣)</label>
+                    <div class="bg-violet-100 p-3 rounded-lg mb-4 border border-violet-300">
+                        <label class="block text-sm font-medium text-violet-700">金額 (TWD 台幣)</label>
                         <input 
                             :value="calculatedTwdAmount" 
                             @input="updateAmount('twd', $event.target.value)" 
                             type="number" 
-                            class="w-full p-2 mt-1 bg-app-primary-50 border border-app-primary-300 text-app-primary-900 rounded-lg text-xl font-extrabold"
+                            class="w-full p-2 mt-1 bg-violet-50 border border-violet-300 text-violet-900 rounded-lg text-xl font-extrabold"
                             placeholder="請輸入台幣金額">
-                        <p class="text-xs text-app-primary-700 mt-2">
+                        <p class="text-xs text-violet-700 mt-2">
                              * 換算 JPY: {{ calculatedJpyAmount.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}
                         </p>
                     </div>
@@ -357,17 +338,17 @@
                         <option v-for="c in expenseCategories" :key="c" class="bg-white text-neutral-900">{{ c }}</option>
                     </select>
 
-                    <button @click="addExpense" :disabled="!canAddExpense" class="w-full bg-app-primary-600 hover:bg-app-primary-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500">
+                    <button @click="addExpense" :disabled="!canAddExpense" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500">
                         記錄支出
                     </button>
                 </div>
 
-                <h3 class="font-bold text-lg mt-5 mb-3 text-app-primary-700 flex items-center">
+                <h3 class="font-bold text-lg mt-5 mb-3 text-violet-700 flex items-center">
                     <i class="ph ph-list-checks text-2xl mr-2"></i> 支出紀錄
                 </h3>
                 <div v-if="expenses.length > 0" class="space-y-3">
                     <div v-for="expense in sortedExpenses" :key="expense.id" 
-                         class="bg-white p-4 rounded-xl border border-neutral-200 mb-2 transition duration-150 hover:border-app-primary-500">
+                         class="bg-white p-4 rounded-xl border border-neutral-200 mb-2 transition duration-150 hover:border-violet-500">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="font-bold text-neutral-900">{{ expense.description }}</p>
@@ -401,17 +382,17 @@
             </div>
 
             <div v-else-if="activeTab === 'map'">
-                <h2 class="text-2xl font-bold mb-4 text-app-primary-700">地圖與導航</h2>
+                <h2 class="text-2xl font-bold mb-4 text-violet-700">地圖與導航</h2>
                 
                 <div class="bg-yellow-100 p-4 rounded-xl border border-yellow-300 mb-6 text-sm text-yellow-800">
-                    <h3 class="semibold text-base mb-2 text-yellow-800 flex items-center">
+                    <h3 class="font-semibold text-base mb-2 text-yellow-800 flex items-center">
                         <i class="ph ph-map-pin-line text-xl mr-2 text-yellow-600"></i>
                         行程自動路線規劃
                     </h3>
                     <p class="mb-3 text-neutral-800">
                         我們已自動將 {{ currentDate }} 的所有行程地點組合成一條導航路線。
                     </p>
-                    <button @click="openItineraryRoute" :disabled="filteredItinerary.length === 0" class="w-full bg-app-primary-600 hover:bg-app-primary-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500 flex items-center justify-center">
+                    <button @click="openItineraryRoute" :disabled="filteredItinerary.length === 0" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500 flex items-center justify-center">
                         <i class="ph ph-map-trifold text-xl mr-2"></i> 開啟 Google Maps 導航
                     </button>
                     <p class="text-xs text-neutral-600 mt-2">（將在新視窗中開啟多點路線）</p>
@@ -423,8 +404,8 @@
                 </div>
 
 
-                <div class="w-full h-80 bg-white rounded-xl shadow-inner flex flex-col items-center justify-center p-6 border-4 border-app-primary-500 border-dashed">
-                    <i class="ph ph-compass-tool text-6xl text-app-primary-600 mb-3"></i>
+                <div class="w-full h-80 bg-white rounded-xl shadow-inner flex flex-col items-center justify-center p-6 border-4 border-violet-500 border-dashed">
+                    <i class="ph ph-compass-tool text-6xl text-violet-600 mb-3"></i>
                     <p class="text-center text-neutral-800 font-semibold">
                         地圖顯示區 (行程已自動釘選)
                     </p>
@@ -504,15 +485,15 @@
 
         <nav class="bg-white border-t border-neutral-200 p-2 sticky bottom-0 z-20 shadow-xl">
             <div class="flex justify-around">
-                <button @click="activeTab = 'itinerary'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'itinerary', 'text-neutral-500 border-transparent': activeTab !== 'itinerary'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'itinerary'" :class="{'text-violet-600 border-violet-600': activeTab === 'itinerary', 'text-neutral-500 border-transparent': activeTab !== 'itinerary'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-calendar-blank text-2xl"></i>
                     <span class="text-xs font-medium">行程</span>
                 </button>
-                <button @click="activeTab = 'ledger'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'ledger', 'text-neutral-500 border-transparent': activeTab !== 'ledger'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'ledger'" :class="{'text-violet-600 border-violet-600': activeTab === 'ledger', 'text-neutral-500 border-transparent': activeTab !== 'ledger'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-currency-circle-dollar text-2xl"></i>
                     <span class="text-xs font-medium">記帳</span>
                 </button>
-                <button @click="activeTab = 'map'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'map', 'text-neutral-500 border-transparent': activeTab !== 'map'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'map'" :class="{'text-violet-600 border-violet-600': activeTab === 'map', 'text-neutral-500 border-transparent': activeTab !== 'map'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-map-pin text-2xl"></i>
                     <span class="text-xs font-medium">地圖</span>
                 </button>
@@ -569,16 +550,16 @@
                 // 預設為方案 A (先去山中湖)
                 const dayTwoOption = ref('A'); 
 
-                const travelDates = ref(['12/17 (三)', '12/18 (四)', '12/19 (五)', '12/20 (六)', '12/21 (日)']);
-                const currentDate = ref('12/17 (三)');
+                const travelDates = ref(['12/17 (二)', '12/18 (三)', '12/19 (四)', '12/20 (五)', '12/21 (六)']);
+                const currentDate = ref('12/17 (二)');
                 
                 const simulatedWeather = computed(() => {
                     const date = currentDate.value;
-                    if (date === '12/17 (三)') return '7°C ~ 14°C 晴'; 
-                    if (date === '12/18 (四)') return '3°C ~ 12°C 晴'; 
-                    if (date === '12/19 (五)') return '5°C ~ 15°C 晴'; 
-                    if (date === '12/20 (六)') return '8°C ~ 16°C 陰'; 
-                    if (date === '12/21 (日)') return '9°C ~ 17°C 晴'; 
+                    if (date === '12/17 (二)') return '7°C ~ 14°C 晴';
+                    if (date === '12/18 (三)') return '3°C ~ 12°C 晴';
+                    if (date === '12/19 (四)') return '5°C ~ 15°C 晴';
+                    if (date === '12/20 (五)') return '8°C ~ 16°C 陰';
+                    if (date === '12/21 (六)') return '9°C ~ 17°C 晴';
                     return '11°C 晴';
                 }); 
                 
@@ -612,16 +593,16 @@
                         case 'restaurant':
                             return { iconClass: 'ph-fork-knife', dotColor: 'bg-red-500' };
                         case 'transport':
-                            return { iconClass: 'ph-car', dotColor: 'bg-blue-500' }; // 這裡使用 blue-500 保留交通的藍色，避免與 app-primary 混淆
+                            return { iconClass: 'ph-car', dotColor: 'bg-blue-500' };
                         default:
-                            return { iconClass: 'ph-circle', dotColor: 'bg-app-primary-600' }; // 預設使用 app-primary
+                            return { iconClass: 'ph-circle', dotColor: 'bg-violet-600' };
                     }
                 };
 
-                // --- 航班資訊 (已更新日期) ---
+                // --- 航班資訊 (無需持久化) ---
                 const flights = ref([
-                    { id: 1, type: '去程 (DEPARTURE)', date: '12/17 (三)', origin: 'TPE', originName: '桃園國際機場', destination: 'NRT', destinationName: '成田國際機場', depTime: '08:12', arrTime: '10:20', flightNum: 'MM620', airline: '樂桃 (Peach)', terminal: { dep: 'T1', arr: 'T1' } },
-                    { id: 2, type: '回程 (RETURN)', date: '12/21 (日)', origin: 'NRT', originName: '成田國際機場', destination: 'TPE', destinationName: '桃園國際機場', depTime: '22:05', arrTime: '01:00 (+1)', flightNum: 'GK011', airline: '捷星 (Jetstar)', terminal: { dep: 'T3', arr: 'T1' } }
+                    { id: 1, type: '去程 (DEPARTURE)', date: '12/17 (二)', origin: 'TPE', originName: '桃園國際機場', destination: 'NRT', destinationName: '成田國際機場', depTime: '08:12', arrTime: '10:20', flightNum: 'MM620', airline: '樂桃 (Peach)', terminal: { dep: 'T1', arr: 'T1' } },
+                    { id: 2, type: '回程 (RETURN)', date: '12/21 (六)', origin: 'NRT', originName: '成田國際機場', destination: 'TPE', destinationName: '桃園國際機場', depTime: '22:05', arrTime: '01:00 (+1)', flightNum: 'GK011', airline: '捷星 (Jetstar)', terminal: { dep: 'T3', arr: 'T1' } }
                 ]);
 
                 const currentFlights = computed(() => {
@@ -633,9 +614,9 @@
                 };
 
 
-                // --- 1. 行程表狀態與邏輯 (已更新日期) ---
+                // --- 1. 行程表狀態與邏輯 (更新行程內容並加入持久化) ---
 
-                // 行程資料：載入或使用最新預設 (日期已全部更新)
+                // 行程資料：載入或使用最新預設
                 const loadItinerary = () => {
                     const stored = localStorage.getItem(ITINERARY_STORAGE_KEY);
                     if (stored) {
@@ -645,47 +626,47 @@
                     // 使用最新的行程內容替換預設資料
                     return [
                         // Day 1 — 12/17 | 河口湖
-                        { id: nextId.value++, date: '12/17 (三)', time: '08:00', location: '成田 → 新宿（成田特快）', type: 'transport', note: '可搭 08:12–09:47 或 08:49–10:20', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (三)', time: '10:30', location: '轉乘富士回遊', type: 'transport', note: '10:30 出發 → 12:23 抵達河口湖', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (三)', time: '12:30', location: 'MYSTAYS 富士山展望溫泉飯店 Check-in', type: 'attraction', note: '河口湖地區住宿', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (三)', time: '14:00', location: '富士山遊船', type: 'attraction', note: '纜車建議提前 10 分鐘排隊', redNote: '風大偏冷，傍晚視線不穩', showNote: false },
-                        { id: nextId.value++, date: '12/17 (三)', time: '16:00', location: 'Fujisan 麵包/Plaza/餺飥烏龍麵', type: 'restaurant', note: 'Fujisan Shokupan 18:00 關門, 餺飥烏龍麵 19:00 關門', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (二)', time: '08:00', location: '成田 → 新宿（成田特快）', type: 'transport', note: '可搭 08:12–09:47 或 08:49–10:20', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (二)', time: '10:30', location: '轉乘富士回遊', type: 'transport', note: '10:30 出發 → 12:23 抵達河口湖', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (二)', time: '12:30', location: 'MYSTAYS 富士山展望溫泉飯店 Check-in', type: 'attraction', note: '河口湖地區住宿', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (二)', time: '14:00', location: '富士山遊船', type: 'attraction', note: '纜車建議提前 10 分鐘排隊', redNote: '風大偏冷，傍晚視線不穩', showNote: false },
+                        { id: nextId.value++, date: '12/17 (二)', time: '16:00', location: 'Fujisan 麵包/Plaza/餺飥烏龍麵', type: 'restaurant', note: 'Fujisan Shokupan 18:00 關門, 餺飥烏龍麵 19:00 關門', redNote: null, showNote: false },
 
                         // Day 2 — 12/18 | 山中湖 → 御殿場 → 箱根
-                        { id: nextId.value++, date: '12/18 (四)', time: '05:40', location: '産屋ヶ崎 (Ubuyagasaki) 觀賞日出', type: 'attraction', note: '氣溫非常低，建議穿羽絨＋手套', redNote: '日出時間', showNote: false },
-                        { id: nextId.value++, date: '12/18 (四)', time: '07:00', location: '退房/早餐', type: 'restaurant', note: '早餐 07:00 開始', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', time: '05:40', location: '産屋ヶ崎 (Ubuyagasaki) 觀賞日出', type: 'attraction', note: '氣溫非常低，建議穿羽絨＋手套', redNote: '日出時間', showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', time: '07:00', location: '退房/早餐', type: 'restaurant', note: '早餐 07:00 開始', redNote: null, showNote: false },
                         
                         // 方案 A: 先去山中湖
-                        { id: nextId.value++, date: '12/18 (四)', option: 'A', time: '07:30', location: '方案 A: 前往山中湖 (交通)', type: 'transport', note: '07:00–07:38 或 07:30–08:30 → 富士急樂園', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/18 (四)', option: 'A', time: '09:48', location: '方案 A: 山中湖 → 御殿場 OUTLET (交通)', type: 'transport', note: '預計 10:30 抵達', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', option: 'A', time: '07:30', location: '方案 A: 前往山中湖 (交通)', type: 'transport', note: '07:00–07:38 或 07:30–08:30 → 富士急樂園', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', option: 'A', time: '09:48', location: '方案 A: 山中湖 → 御殿場 OUTLET (交通)', type: 'transport', note: '預計 10:30 抵達', redNote: null, showNote: false },
                         
                         // 方案 B: 直接前往 Outlet (時間點設定與方案 A 抵達 Outlet 時間相同，方便切換)
-                        { id: nextId.value++, date: '12/18 (四)', option: 'B', time: '08:30', location: '方案 B: 富士急樂園 → 御殿場 OUTLET (交通)', type: 'transport', note: '退房後直接前往，預計 10:30 抵達', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', option: 'B', time: '08:30', location: '方案 B: 富士急樂園 → 御殿場 OUTLET (交通)', type: 'transport', note: '退房後直接前往，預計 10:30 抵達', redNote: null, showNote: false },
 
                         // 共同行程
-                        { id: nextId.value++, date: '12/18 (四)', time: '10:30', location: '御殿場 OUTLET', type: 'attraction', note: '購物及午餐時間，建議先逛北館再南館', redNote: '冬天風很強，建議戴圍巾', showNote: false },
-                        { id: nextId.value++, date: '12/18 (四)', time: '15:00', location: 'OUTLET → 箱根 (交通移動)', type: 'transport', note: '巴士 15–30 分一班，車程約 30 分鐘', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/18 (四)', time: '16:00', location: 'Blisstia 箱根仙石原 飯店 Check-in/自由活動', type: 'attraction', note: '若 Outlet 買太多，可現場寄物寄回飯店', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', time: '10:30', location: '御殿場 OUTLET', type: 'attraction', note: '購物及午餐時間，建議先逛北館再南館', redNote: '冬天風很強，建議戴圍巾', showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', time: '15:00', location: 'OUTLET → 箱根 (交通移動)', type: 'transport', note: '巴士 15–30 分一班，車程約 30 分鐘', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (三)', time: '16:00', location: 'Blisstia 箱根仙石原 飯店 Check-in/自由活動', type: 'attraction', note: '若 Outlet 買太多，可現場寄物寄回飯店', redNote: null, showNote: false },
                         
                         // Day 3 — 12/19 | 箱根半日遊 → 東京淺草
-                        { id: nextId.value++, date: '12/19 (五)', time: '08:20', location: '大涌谷', type: 'attraction', note: '預計停留 1 小時', redNote: '天氣不好，火山口煙霧會遮擋視線', showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '09:20', location: '大涌谷 → 元箱根港 (交通)', type: 'transport', note: '移動至元箱根港', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '09:45', location: '箱根神社／水上鳥居', type: 'attraction', note: '可能排隊 5–15 分鐘拍照', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '10:20', location: '成川美術館', type: 'attraction', note: '觀景台能看到富士山（視天氣），預計停留 1 小時', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '11:20', location: '午餐 (Bakery & Table/田村銀杏/強羅咖啡)', type: 'restaurant', note: '午餐選擇', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '12:00', location: '海盜船：元箱根港 → 桃源台港', type: 'transport', note: '海盜船體驗', redNote: '12:00 船班較容易客滿', showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '12:30', location: '回飯店取行李', type: 'transport', note: '準備移動至東京', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '15:00', location: '前往東京淺草 (長途交通)', type: 'transport', note: '飯店→小田原(巴士)→東京(新幹線)→上野→淺草(APA Hotel 浅草雷門)', redNote: '小田原新幹線班次多，彈性搭乘即可', showNote: false },
-                        { id: nextId.value++, date: '12/19 (五)', time: '17:00', location: '淺草自由行', type: 'attraction', note: '可先逛 UNIQLO、仲見世通。晚餐：壽喜燒', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '08:20', location: '大涌谷', type: 'attraction', note: '預計停留 1 小時', redNote: '天氣不好，火山口煙霧會遮擋視線', showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '09:20', location: '大涌谷 → 元箱根港 (交通)', type: 'transport', note: '移動至元箱根港', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '09:45', location: '箱根神社／水上鳥居', type: 'attraction', note: '可能排隊 5–15 分鐘拍照', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '10:20', location: '成川美術館', type: 'attraction', note: '觀景台能看到富士山（視天氣），預計停留 1 小時', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '11:20', location: '午餐 (Bakery & Table/田村銀杏/強羅咖啡)', type: 'restaurant', note: '午餐選擇', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '12:00', location: '海盜船：元箱根港 → 桃源台港', type: 'transport', note: '海盜船體驗', redNote: '12:00 船班較容易客滿', showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '12:30', location: '回飯店取行李', type: 'transport', note: '準備移動至東京', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '15:00', location: '前往東京淺草 (長途交通)', type: 'transport', note: '飯店→小田原(巴士)→東京(新幹線)→上野→淺草(APA Hotel 浅草雷門)', redNote: '小田原新幹線班次多，彈性搭乘即可', showNote: false },
+                        { id: nextId.value++, date: '12/19 (四)', time: '17:00', location: '淺草自由行', type: 'attraction', note: '可先逛 UNIQLO、仲見世通。晚餐：壽喜燒', redNote: null, showNote: false },
 
                         // Day 4 — 12/20 | 澀谷購物日 → 銀座晚餐
-                        { id: nextId.value++, date: '12/20 (六)', time: '10:00', location: '澀谷 All Day Shopping', type: 'attraction', note: '澀谷 PARCO, SHIBUYA109, Scramble Square, 澀谷 SKY', redNote: '澀谷容易迷路，可標記 Hachiko', showNote: false },
-                        { id: nextId.value++, date: '12/20 (六)', time: '19:00', location: '肉屋の台所 Ginza Premium', type: 'restaurant', note: '營業到 23:00', redNote: '銀座餐廳週五/週六建議提前預約', showNote: false },
+                        { id: nextId.value++, date: '12/20 (五)', time: '10:00', location: '澀谷 All Day Shopping', type: 'attraction', note: '澀谷 PARCO, SHIBUYA109, Scramble Square, 澀谷 SKY', redNote: '澀谷容易迷路，可標記 Hachiko', showNote: false },
+                        { id: nextId.value++, date: '12/20 (五)', time: '19:00', location: '肉屋の台所 Ginza Premium', type: 'restaurant', note: '營業到 23:00', redNote: '銀座餐廳週五/週六建議提前預約', showNote: false },
 
                         // Day 5 — 12/21 | 回程日
-                        { id: nextId.value++, date: '12/21 (日)', time: '11:00', location: '自由活動/伴手禮採買 (淺草)', type: 'attraction', note: null, redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/21 (日)', time: '17:45', location: '前往成田機場 (NRT) 交通移動', type: 'transport', note: '建議保留 3 小時以上到機場', redNote: '成田第三航廈需步行 5–10 分鐘', showNote: false },
-                        { id: nextId.value++, date: '12/21 (日)', time: '22:05', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '飛機預計起飛時間', redNote: '記得退稅', showNote: false },
+                        { id: nextId.value++, date: '12/21 (六)', time: '11:00', location: '自由活動/伴手禮採買 (淺草)', type: 'attraction', note: null, redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/21 (六)', time: '17:45', location: '前往成田機場 (NRT) 交通移動', type: 'transport', note: '建議保留 3 小時以上到機場', redNote: '成田第三航廈需步行 5–10 分鐘', showNote: false },
+                        { id: nextId.value++, date: '12/21 (六)', time: '22:05', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '飛機預計起飛時間', redNote: '記得退稅', showNote: false },
                     ];
                 };
                 
@@ -701,7 +682,7 @@
                     const targetDate = currentDate.value;
                     let filtered = itineraryItems.value.filter(item => item.date === targetDate);
 
-                    if (targetDate === '12/18 (四)') {
+                    if (targetDate === '12/18 (三)') {
                         // 僅顯示選定方案或無方案的項目
                         filtered = filtered.filter(item => !item.option || item.option === dayTwoOption.value);
                     } else {
@@ -795,7 +776,7 @@
                 };
 
 
-                // --- 2. 記帳系統狀態與邏輯 (已更新日期) ---
+                // --- 2. 記帳系統狀態與邏輯 ---
                 const jpyToTwdRate = 0.201; 
                 const expenseCategories = ref(['餐飲', '交通', '住宿', '購物', '門票', '其他']);
 
@@ -804,10 +785,10 @@
                     if (stored) return JSON.parse(stored);
                     
                     return [
-                        { id: expenseNextId.value++, date: '12/17 (三)', description: '機票 (TWD)', amount: 16080, amountJpy: 0, category: '交通' }, 
-                        { id: expenseNextId.value++, date: '12/17 (三)', description: '河口湖巴士票', amount: 804, amountJpy: 4000, category: '交通' },
-                        { id: expenseNextId.value++, date: '12/18 (四)', description: '御殿場午餐', amount: 1206, amountJpy: 6000, category: '餐飲' },
-                        { id: expenseNextId.value++, date: '12/18 (四)', description: '箱根住宿', amount: 3618, amountJpy: 18000, category: '住宿' },
+                        { id: expenseNextId.value++, date: '12/17 (二)', description: '機票 (TWD)', amount: 16080, amountJpy: 0, category: '交通' }, 
+                        { id: expenseNextId.value++, date: '12/17 (二)', description: '河口湖巴士票', amount: 804, amountJpy: 4000, category: '交通' },
+                        { id: expenseNextId.value++, date: '12/18 (三)', description: '御殿場午餐', amount: 1206, amountJpy: 6000, category: '餐飲' },
+                        { id: expenseNextId.value++, date: '12/18 (三)', description: '箱根住宿', amount: 3618, amountJpy: 18000, category: '住宿' },
                     ];
                 };
 
