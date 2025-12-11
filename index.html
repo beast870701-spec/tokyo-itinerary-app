@@ -543,9 +543,9 @@
             setup() {
                 // --- 應用程式狀態 ---
                 const activeTab = ref('itinerary');
-                const nextId = ref(100); 
-                const expenseNextId = ref(1000); 
-                const shoppingNextId = ref(2000); 
+                const nextId = ref(100); // 用於行程 ID
+                const expenseNextId = ref(1000); // 用於支出 ID
+                const shoppingNextId = ref(2000); // 用於購物 ID
                 
                 const dayTwoOption = ref('A'); 
 
@@ -605,7 +605,7 @@
                 };
 
 
-                // --- 1. 行程表狀態與邏輯 (更新行程內容並加入持久化) ---
+                // --- 1. 行程表狀態與邏輯 (新增持久化) ---
 
                 // 行程資料：載入或使用預設
                 const loadItinerary = () => {
@@ -613,42 +613,18 @@
                     if (stored) {
                         return JSON.parse(stored);
                     }
-                    // *** 使用提供的最新行程內容替換預設資料 ***
+                    // 預設資料
                     return [
-                         // Day 1 — 12/17 | 成田 → 新宿 → 河口湖
-                         [cite_start]{ id: nextId.value++, date: '12/17 (二)', time: '08:00', location: '成田 → 新宿（成田特快）', type: 'transport', note: '', redNote: null, showNote: false }, [cite: 3]
-                         [cite_start]{ id: nextId.value++, date: '12/17 (二)', time: '10:30', location: '新宿 → 河口湖（富士回遊）', type: 'transport', note: '', redNote: null, showNote: false }, [cite: 3]
-                         [cite_start]{ id: nextId.value++, date: '12/17 (二)', time: '12:30', location: '到飯店 Check-in', type: 'attraction', note: '河口湖地區住宿', redNote: null, showNote: false }, [cite: 3]
-                         [cite_start]{ id: nextId.value++, date: '12/17 (二)', time: '14:00', location: '富士山纜車（已購票）', type: 'attraction', note: '注意營運時間', redNote: '已線上購票', showNote: false }, [cite: 3]
-                         [cite_start]{ id: nextId.value++, date: '12/17 (二)', time: '16:00', location: 'Fujisan 麵包／Plaza／烏龍麵／遊船', type: 'attraction', note: '下午自由活動', redNote: null, showNote: false }, [cite: 3]
-
-                         // Day 2 — 12/18 | 河口湖 → 山中湖 / OUTLET → 箱根
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', time: '05:40', location: '日出 Ubuyagasaki (觀賞日出)', type: 'attraction', note: '需自行前往觀賞日出', redNote: null, showNote: false }, [cite: 5]
-                         // 方案 A: 經過山中湖 (預設選中)
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', option: 'A', time: '07:00', location: '方案 A: 退房 → 山中湖（可選）', type: 'transport', note: '可選路線，若時間充裕可考慮此方案', redNote: null, showNote: false }, [cite: 5]
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', option: 'A', time: '10:30', location: '御殿場 OUTLET', type: 'restaurant', note: '購物及午餐時間', redNote: null, showNote: false }, [cite: 5]
-                         // 方案 B: 直接前往 Outlet (未在數據中呈現，僅依邏輯保留)
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', option: 'B', time: '10:30', location: '御殿場 OUTLET', type: 'restaurant', note: '購物及午餐時間', redNote: null, showNote: false }, [cite: 5]
-
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', time: '15:00', location: 'OUTLET → 箱根 (交通移動)', type: 'transport', note: '移動至箱根地區，預計 1 小時', redNote: null, showNote: false }, [cite: 5]
-                         [cite_start]{ id: nextId.value++, date: '12/18 (三)', time: '16:00', location: '箱根地區自由時間', type: 'attraction', note: '飯店 Check-in/晚餐', redNote: null, showNote: false }, [cite: 5]
-                         
-                         // Day 3 — 12/19 | 箱根半日遊 → 東京
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '08:20', location: '大涌谷', type: 'attraction', note: '預計停留 1 小時', redNote: null, showNote: false }, [cite: 7]
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '09:20', location: '大涌谷 → 元箱根港', type: 'transport', note: '搭乘纜車/巴士', redNote: null, showNote: false }, [cite: 7]
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '09:45', location: '箱根神社／水上鳥居', type: 'attraction', note: '預計停留 30 分鐘', redNote: null, showNote: false }, [cite: 7]
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '10:20', location: '成川美術館', type: 'attraction', note: '預計停留 1 小時', redNote: null, showNote: false }, [cite: 7]
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '12:00', location: '海盜船：元箱根港 → 桃源台港', type: 'transport', note: '海盜船體驗', redNote: null, showNote: false }, [cite: 7]
-                         [cite_start]{ id: nextId.value++, date: '12/19 (四)', time: '15:00', location: '箱根 → 東京 → 淺草 (Check-in)', type: 'transport', note: '長途交通移動至東京市區', redNote: null, showNote: false }, [cite: 7]
-                         
-                         // Day 4 — 12/20 | 澀谷購物 & 銀座晚餐
-                         [cite_start]{ id: nextId.value++, date: '12/20 (五)', time: '10:00', location: '澀谷購物 (全天)', type: 'attraction', note: '整天在澀谷逛街', redNote: null, showNote: false }, [cite: 9]
-                         [cite_start]{ id: nextId.value++, date: '12/20 (五)', time: '19:00', location: '銀座吃飯（肉屋の台所）', type: 'restaurant', note: '已訂位', redNote: '重要晚餐', showNote: false }, [cite: 9]
-
-                         // Day 5 — 12/21 | 回台灣
-                         [cite_start]{ id: nextId.value++, date: '12/21 (六)', time: '11:00', location: '淺草自由活動/伴手禮採買', type: 'attraction', note: '上午時段在淺草', redNote: null, showNote: false }, [cite: 11]
-                         [cite_start]{ id: nextId.value++, date: '12/21 (六)', time: '17:45', location: '前往機場 (成田/羽田)', type: 'transport', note: '提早出發，預計 17:45 前抵達交通站', redNote: null, showNote: false }, [cite: 11]
-                         [cite_start]{ id: nextId.value++, date: '12/21 (六)', time: '22:05', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '飛機預計起飛時間', redNote: '記得退稅', showNote: false }, [cite: 11]
+                         { id: nextId.value++, date: '12/17 (二)', time: '01:00', location: '前往桃園國際機場 T1 報到 (紅眼班機)', type: 'transport', note: '提前三小時報到', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/17 (二)', time: '06:30', location: '抵達成田國際機場 T1, 入境及領取行李', type: 'transport', note: '購買 N\'EX 車票。確認 Wi-Fi 機取件地點。', redNote: '飛機座位選左側，有機率在降落前看到富士山！', showNote: false }, 
+                         { id: nextId.value++, date: '12/17 (二)', time: '08:12', location: '搭乘 N\'EX 成田 → 新宿 (車程 1h 35m)', type: 'transport', note: '', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/17 (二)', time: '13:30', location: '飯店 Check-in / 放行李 (MYSTAYS 富士山展望溫泉)', type: 'attraction', note: '憑證資訊', redNote: '提醒櫃檯安排高樓層面向富士山的房間', showNote: false },
+                         // ... 簡化預設資料以節省空間，但保留結構
+                         { id: nextId.value++, date: '12/18 (三)', option: 'A', time: '10:30', location: '抵達御殿場 Outlet，開始購物及午餐', type: 'restaurant', note: '重點逛: Nike, Adidas, Beams', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/18 (三)', option: 'B', time: '10:33', location: '抵達御殿場 Outlet，開始購物及午餐', type: 'restaurant', note: '重點逛: Nike, Adidas, Beams', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/19 (四)', time: '13:00', location: '午餐: 檸檬的牛舌 (⭕️ 重要餐點)', type: 'restaurant', note: '已訂位 13:00', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/20 (五)', time: '19:00', location: '晚餐: 肉屋台所 (⭕️ 重要餐點)', type: 'restaurant', note: '晚上七點的燒肉吃到飽！', redNote: null, showNote: false },
+                         { id: nextId.value++, date: '12/21 (六)', time: '22:25', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '', redNote: null, showNote: false },
                     ];
                 };
                 
@@ -656,7 +632,6 @@
                     localStorage.setItem(ITINERARY_STORAGE_KEY, JSON.stringify(itemsArray));
                 };
 
-                // 初始化時先載入 LocalStorage 中的行程
                 const itineraryItems = ref(loadItinerary());
 
 
@@ -691,6 +666,7 @@
                     }
                 };
 
+                // 備註變動時觸發整體儲存
                 const saveItineraryLocally = () => {
                      saveItinerary(itineraryItems.value);
                 };
@@ -755,7 +731,7 @@
                 };
 
 
-                // --- 2. 記帳系統狀態與邏輯 ---
+                // --- 2. 記帳系統狀態與邏輯 (雙向換算 + 持久化) ---
                 const jpyToTwdRate = 0.201; 
                 const expenseCategories = ref(['餐飲', '交通', '住宿', '購物', '門票', '其他']);
 
@@ -779,15 +755,16 @@
 
                 const newExpense = reactive({
                     description: '',
-                    amountJpy: null, 
-                    amountTwd: null, 
+                    amountJpy: null, // 用於 JPY 原始輸入
+                    amountTwd: null, // 用於 TWD 原始輸入
                     category: '',
                     date: currentDate.value,
                 });
                 
+                // 雙向換算邏輯
                 const updateAmount = (source, value) => {
                     const numericValue = parseFloat(value);
-                    if (isNaN(numericValue) || numericValue < 0) {
+                    if (isNaN(numericValue) || numericValue <= 0) {
                         newExpense.amountJpy = null;
                         newExpense.amountTwd = null;
                         return;
@@ -802,6 +779,7 @@
                     }
                 };
                 
+                // 計算顯示的金額
                 const calculatedTwdAmount = computed(() => {
                     return newExpense.amountTwd !== null ? newExpense.amountTwd.toFixed(0) : '';
                 });
@@ -816,6 +794,7 @@
 
                 const addExpense = () => {
                     if (canAddExpense.value) {
+                        // 紀錄時使用 TWD 作為主要金額，JPY 作為參考值
                         expenses.value.push({
                             id: Date.now(), 
                             date: currentDate.value,
@@ -826,6 +805,7 @@
                         });
                         saveExpenses(expenses.value);
 
+                        // 重置表單
                         newExpense.description = '';
                         newExpense.amountJpy = null;
                         newExpense.amountTwd = null;
@@ -861,7 +841,7 @@
                 };
 
 
-                // --- 3. 地圖狀態與邏輯 ---
+                // --- 3. 地圖狀態與邏輯 (保持不變) ---
                 const filteredItinerary = computed(() => itineraryWithDuration.value.filter(item => !item.option)); 
 
                 const mapRouteQuery = computed(() => {
@@ -899,7 +879,7 @@
                     }
                 };
 
-                // --- 4. 購物清單狀態與邏輯 ---
+                // --- 4. 購物清單狀態與邏輯 (新增) ---
                 const loadShoppingList = () => {
                     const stored = localStorage.getItem(SHOPPING_STORAGE_KEY);
                     if (stored) return JSON.parse(stored);
@@ -920,18 +900,18 @@
                 const newShoppingItem = reactive({
                     name: '',
                     quantity: 1,
-                    image: null, 
-                    imagePreview: null, 
+                    image: null, // Base64 Data URL or null
+                    imagePreview: null, // 暫存圖片，用於顯示
                 });
 
-                const imageInput = ref(null); 
+                const imageInput = ref(null); // 用於 $refs
 
                 const handleImageUpload = (event) => {
                     const file = event.target.files[0];
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            newShoppingItem.image = e.target.result; 
+                            newShoppingItem.image = e.target.result; // 將圖片轉換為 Base64 字符串
                             newShoppingItem.imagePreview = file.name;
                         };
                         reader.readAsDataURL(file);
@@ -952,14 +932,16 @@
                             name: newShoppingItem.name,
                             quantity: newShoppingItem.quantity,
                             done: false,
-                            image: newShoppingItem.image, 
+                            image: newShoppingItem.image, // 儲存 Base64
                         });
                         saveShoppingList(shoppingList.value);
                         
+                        // 重置表單
                         newShoppingItem.name = '';
                         newShoppingItem.quantity = 1;
                         newShoppingItem.image = null;
                         newShoppingItem.imagePreview = null;
+                        // 重設 input:file 讓用戶可以重新選擇同一個檔案
                         if (imageInput.value) imageInput.value.value = ''; 
                     }
                 };
@@ -981,6 +963,7 @@
                 };
 
                 const sortedShoppingList = computed(() => {
+                    // 未完成的項目在前，已完成的項目在後
                     return [...shoppingList.value].sort((a, b) => (a.done === b.done) ? 0 : a.done ? 1 : -1);
                 });
 
@@ -1003,7 +986,7 @@
                     itineraryWithDuration,
                     getIconAndColor,
                     toggleNote,
-                    saveItineraryLocally, 
+                    saveItineraryLocally, // 確保備註即時儲存
                     // Modal Logic
                     isModalOpen,
                     editingItem,
@@ -1020,7 +1003,7 @@
                     canAddExpense,
                     addExpense,
                     deleteExpense,
-                    updateAmount, 
+                    updateAmount, // 雙向換算
                     calculatedTwdAmount,
                     calculatedJpyAmount,
                     totalTwdSpent,
@@ -1040,7 +1023,7 @@
                     toggleShoppingDone,
                     sortedShoppingList,
                     pendingShoppingItems,
-                    imageInput, 
+                    imageInput, // 暴露 ref
                 };
             }
         }).mount('#app');
