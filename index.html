@@ -160,7 +160,7 @@
                 </section>
 
 
-                <div v-if="currentDate === '12/18 (三)'" class="bg-white p-4 rounded-xl border-2 border-violet-300 mb-6 shadow-sm">
+                <div v-if="currentDate === '12/18 (四)'" class="bg-white p-4 rounded-xl border-2 border-violet-300 mb-6 shadow-sm">
                     <h3 class="font-semibold text-lg mb-3 text-violet-700">12/18 行程方案選擇</h3>
                     <div class="flex space-x-3">
                         <button @click="dayTwoOption = 'A'" :class="{'bg-violet-600 text-white': dayTwoOption === 'A', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-violet-100': dayTwoOption !== 'A'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
@@ -550,16 +550,18 @@
                 // 預設為方案 A (先去山中湖)
                 const dayTwoOption = ref('A'); 
 
-                const travelDates = ref(['12/17 (二)', '12/18 (三)', '12/19 (四)', '12/20 (五)', '12/21 (六)']);
-                const currentDate = ref('12/17 (二)');
+                // *** START: 日期更新 ***
+                const travelDates = ref(['12/17 (三)', '12/18 (四)', '12/19 (五)', '12/20 (六)', '12/21 (日)']);
+                const currentDate = ref('12/17 (三)');
+                // *** END: 日期更新 ***
                 
                 const simulatedWeather = computed(() => {
                     const date = currentDate.value;
-                    if (date === '12/17 (二)') return '7°C ~ 14°C 晴';
-                    if (date === '12/18 (三)') return '3°C ~ 12°C 晴';
-                    if (date === '12/19 (四)') return '5°C ~ 15°C 晴';
-                    if (date === '12/20 (五)') return '8°C ~ 16°C 陰';
-                    if (date === '12/21 (六)') return '9°C ~ 17°C 晴';
+                    if (date === '12/17 (三)') return '7°C ~ 14°C 晴'; 
+                    if (date === '12/18 (四)') return '3°C ~ 12°C 晴'; 
+                    if (date === '12/19 (五)') return '5°C ~ 15°C 晴'; 
+                    if (date === '12/20 (六)') return '8°C ~ 16°C 陰'; 
+                    if (date === '12/21 (日)') return '9°C ~ 17°C 晴'; 
                     return '11°C 晴';
                 }); 
                 
@@ -599,10 +601,10 @@
                     }
                 };
 
-                // --- 航班資訊 (無需持久化) ---
+                // --- 航班資訊 (已更新日期) ---
                 const flights = ref([
-                    { id: 1, type: '去程 (DEPARTURE)', date: '12/17 (二)', origin: 'TPE', originName: '桃園國際機場', destination: 'NRT', destinationName: '成田國際機場', depTime: '08:12', arrTime: '10:20', flightNum: 'MM620', airline: '樂桃 (Peach)', terminal: { dep: 'T1', arr: 'T1' } },
-                    { id: 2, type: '回程 (RETURN)', date: '12/21 (六)', origin: 'NRT', originName: '成田國際機場', destination: 'TPE', destinationName: '桃園國際機場', depTime: '22:05', arrTime: '01:00 (+1)', flightNum: 'GK011', airline: '捷星 (Jetstar)', terminal: { dep: 'T3', arr: 'T1' } }
+                    { id: 1, type: '去程 (DEPARTURE)', date: '12/17 (三)', origin: 'TPE', originName: '桃園國際機場', destination: 'NRT', destinationName: '成田國際機場', depTime: '08:12', arrTime: '10:20', flightNum: 'MM620', airline: '樂桃 (Peach)', terminal: { dep: 'T1', arr: 'T1' } },
+                    { id: 2, type: '回程 (RETURN)', date: '12/21 (日)', origin: 'NRT', originName: '成田國際機場', destination: 'TPE', destinationName: '桃園國際機場', depTime: '22:05', arrTime: '01:00 (+1)', flightNum: 'GK011', airline: '捷星 (Jetstar)', terminal: { dep: 'T3', arr: 'T1' } }
                 ]);
 
                 const currentFlights = computed(() => {
@@ -614,9 +616,9 @@
                 };
 
 
-                // --- 1. 行程表狀態與邏輯 (更新行程內容並加入持久化) ---
+                // --- 1. 行程表狀態與邏輯 (已更新日期) ---
 
-                // 行程資料：載入或使用最新預設
+                // 行程資料：載入或使用最新預設 (日期已全部更新)
                 const loadItinerary = () => {
                     const stored = localStorage.getItem(ITINERARY_STORAGE_KEY);
                     if (stored) {
@@ -626,47 +628,47 @@
                     // 使用最新的行程內容替換預設資料
                     return [
                         // Day 1 — 12/17 | 河口湖
-                        { id: nextId.value++, date: '12/17 (二)', time: '08:00', location: '成田 → 新宿（成田特快）', type: 'transport', note: '可搭 08:12–09:47 或 08:49–10:20', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (二)', time: '10:30', location: '轉乘富士回遊', type: 'transport', note: '10:30 出發 → 12:23 抵達河口湖', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (二)', time: '12:30', location: 'MYSTAYS 富士山展望溫泉飯店 Check-in', type: 'attraction', note: '河口湖地區住宿', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/17 (二)', time: '14:00', location: '富士山遊船', type: 'attraction', note: '纜車建議提前 10 分鐘排隊', redNote: '風大偏冷，傍晚視線不穩', showNote: false },
-                        { id: nextId.value++, date: '12/17 (二)', time: '16:00', location: 'Fujisan 麵包/Plaza/餺飥烏龍麵', type: 'restaurant', note: 'Fujisan Shokupan 18:00 關門, 餺飥烏龍麵 19:00 關門', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (三)', time: '08:00', location: '成田 → 新宿（成田特快）', type: 'transport', note: '可搭 08:12–09:47 或 08:49–10:20', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (三)', time: '10:30', location: '轉乘富士回遊', type: 'transport', note: '10:30 出發 → 12:23 抵達河口湖', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (三)', time: '12:30', location: 'MYSTAYS 富士山展望溫泉飯店 Check-in', type: 'attraction', note: '河口湖地區住宿', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/17 (三)', time: '14:00', location: '富士山遊船', type: 'attraction', note: '纜車建議提前 10 分鐘排隊', redNote: '風大偏冷，傍晚視線不穩', showNote: false },
+                        { id: nextId.value++, date: '12/17 (三)', time: '16:00', location: 'Fujisan 麵包/Plaza/餺飥烏龍麵', type: 'restaurant', note: 'Fujisan Shokupan 18:00 關門, 餺飥烏龍麵 19:00 關門', redNote: null, showNote: false },
 
                         // Day 2 — 12/18 | 山中湖 → 御殿場 → 箱根
-                        { id: nextId.value++, date: '12/18 (三)', time: '05:40', location: '産屋ヶ崎 (Ubuyagasaki) 觀賞日出', type: 'attraction', note: '氣溫非常低，建議穿羽絨＋手套', redNote: '日出時間', showNote: false },
-                        { id: nextId.value++, date: '12/18 (三)', time: '07:00', location: '退房/早餐', type: 'restaurant', note: '早餐 07:00 開始', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', time: '05:40', location: '産屋ヶ崎 (Ubuyagasaki) 觀賞日出', type: 'attraction', note: '氣溫非常低，建議穿羽絨＋手套', redNote: '日出時間', showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', time: '07:00', location: '退房/早餐', type: 'restaurant', note: '早餐 07:00 開始', redNote: null, showNote: false },
                         
                         // 方案 A: 先去山中湖
-                        { id: nextId.value++, date: '12/18 (三)', option: 'A', time: '07:30', location: '方案 A: 前往山中湖 (交通)', type: 'transport', note: '07:00–07:38 或 07:30–08:30 → 富士急樂園', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/18 (三)', option: 'A', time: '09:48', location: '方案 A: 山中湖 → 御殿場 OUTLET (交通)', type: 'transport', note: '預計 10:30 抵達', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', option: 'A', time: '07:30', location: '方案 A: 前往山中湖 (交通)', type: 'transport', note: '07:00–07:38 或 07:30–08:30 → 富士急樂園', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', option: 'A', time: '09:48', location: '方案 A: 山中湖 → 御殿場 OUTLET (交通)', type: 'transport', note: '預計 10:30 抵達', redNote: null, showNote: false },
                         
                         // 方案 B: 直接前往 Outlet (時間點設定與方案 A 抵達 Outlet 時間相同，方便切換)
-                        { id: nextId.value++, date: '12/18 (三)', option: 'B', time: '08:30', location: '方案 B: 富士急樂園 → 御殿場 OUTLET (交通)', type: 'transport', note: '退房後直接前往，預計 10:30 抵達', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', option: 'B', time: '08:30', location: '方案 B: 富士急樂園 → 御殿場 OUTLET (交通)', type: 'transport', note: '退房後直接前往，預計 10:30 抵達', redNote: null, showNote: false },
 
                         // 共同行程
-                        { id: nextId.value++, date: '12/18 (三)', time: '10:30', location: '御殿場 OUTLET', type: 'attraction', note: '購物及午餐時間，建議先逛北館再南館', redNote: '冬天風很強，建議戴圍巾', showNote: false },
-                        { id: nextId.value++, date: '12/18 (三)', time: '15:00', location: 'OUTLET → 箱根 (交通移動)', type: 'transport', note: '巴士 15–30 分一班，車程約 30 分鐘', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/18 (三)', time: '16:00', location: 'Blisstia 箱根仙石原 飯店 Check-in/自由活動', type: 'attraction', note: '若 Outlet 買太多，可現場寄物寄回飯店', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', time: '10:30', location: '御殿場 OUTLET', type: 'attraction', note: '購物及午餐時間，建議先逛北館再南館', redNote: '冬天風很強，建議戴圍巾', showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', time: '15:00', location: 'OUTLET → 箱根 (交通移動)', type: 'transport', note: '巴士 15–30 分一班，車程約 30 分鐘', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/18 (四)', time: '16:00', location: 'Blisstia 箱根仙石原 飯店 Check-in/自由活動', type: 'attraction', note: '若 Outlet 買太多，可現場寄物寄回飯店', redNote: null, showNote: false },
                         
                         // Day 3 — 12/19 | 箱根半日遊 → 東京淺草
-                        { id: nextId.value++, date: '12/19 (四)', time: '08:20', location: '大涌谷', type: 'attraction', note: '預計停留 1 小時', redNote: '天氣不好，火山口煙霧會遮擋視線', showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '09:20', location: '大涌谷 → 元箱根港 (交通)', type: 'transport', note: '移動至元箱根港', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '09:45', location: '箱根神社／水上鳥居', type: 'attraction', note: '可能排隊 5–15 分鐘拍照', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '10:20', location: '成川美術館', type: 'attraction', note: '觀景台能看到富士山（視天氣），預計停留 1 小時', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '11:20', location: '午餐 (Bakery & Table/田村銀杏/強羅咖啡)', type: 'restaurant', note: '午餐選擇', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '12:00', location: '海盜船：元箱根港 → 桃源台港', type: 'transport', note: '海盜船體驗', redNote: '12:00 船班較容易客滿', showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '12:30', location: '回飯店取行李', type: 'transport', note: '準備移動至東京', redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '15:00', location: '前往東京淺草 (長途交通)', type: 'transport', note: '飯店→小田原(巴士)→東京(新幹線)→上野→淺草(APA Hotel 浅草雷門)', redNote: '小田原新幹線班次多，彈性搭乘即可', showNote: false },
-                        { id: nextId.value++, date: '12/19 (四)', time: '17:00', location: '淺草自由行', type: 'attraction', note: '可先逛 UNIQLO、仲見世通。晚餐：壽喜燒', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '08:20', location: '大涌谷', type: 'attraction', note: '預計停留 1 小時', redNote: '天氣不好，火山口煙霧會遮擋視線', showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '09:20', location: '大涌谷 → 元箱根港 (交通)', type: 'transport', note: '移動至元箱根港', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '09:45', location: '箱根神社／水上鳥居', type: 'attraction', note: '可能排隊 5–15 分鐘拍照', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '10:20', location: '成川美術館', type: 'attraction', note: '觀景台能看到富士山（視天氣），預計停留 1 小時', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '11:20', location: '午餐 (Bakery & Table/田村銀杏/強羅咖啡)', type: 'restaurant', note: '午餐選擇', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '12:00', location: '海盜船：元箱根港 → 桃源台港', type: 'transport', note: '海盜船體驗', redNote: '12:00 船班較容易客滿', showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '12:30', location: '回飯店取行李', type: 'transport', note: '準備移動至東京', redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '15:00', location: '前往東京淺草 (長途交通)', type: 'transport', note: '飯店→小田原(巴士)→東京(新幹線)→上野→淺草(APA Hotel 浅草雷門)', redNote: '小田原新幹線班次多，彈性搭乘即可', showNote: false },
+                        { id: nextId.value++, date: '12/19 (五)', time: '17:00', location: '淺草自由行', type: 'attraction', note: '可先逛 UNIQLO、仲見世通。晚餐：壽喜燒', redNote: null, showNote: false },
 
                         // Day 4 — 12/20 | 澀谷購物日 → 銀座晚餐
-                        { id: nextId.value++, date: '12/20 (五)', time: '10:00', location: '澀谷 All Day Shopping', type: 'attraction', note: '澀谷 PARCO, SHIBUYA109, Scramble Square, 澀谷 SKY', redNote: '澀谷容易迷路，可標記 Hachiko', showNote: false },
-                        { id: nextId.value++, date: '12/20 (五)', time: '19:00', location: '肉屋の台所 Ginza Premium', type: 'restaurant', note: '營業到 23:00', redNote: '銀座餐廳週五/週六建議提前預約', showNote: false },
+                        { id: nextId.value++, date: '12/20 (六)', time: '10:00', location: '澀谷 All Day Shopping', type: 'attraction', note: '澀谷 PARCO, SHIBUYA109, Scramble Square, 澀谷 SKY', redNote: '澀谷容易迷路，可標記 Hachiko', showNote: false },
+                        { id: nextId.value++, date: '12/20 (六)', time: '19:00', location: '肉屋の台所 Ginza Premium', type: 'restaurant', note: '營業到 23:00', redNote: '銀座餐廳週五/週六建議提前預約', showNote: false },
 
                         // Day 5 — 12/21 | 回程日
-                        { id: nextId.value++, date: '12/21 (六)', time: '11:00', location: '自由活動/伴手禮採買 (淺草)', type: 'attraction', note: null, redNote: null, showNote: false },
-                        { id: nextId.value++, date: '12/21 (六)', time: '17:45', location: '前往成田機場 (NRT) 交通移動', type: 'transport', note: '建議保留 3 小時以上到機場', redNote: '成田第三航廈需步行 5–10 分鐘', showNote: false },
-                        { id: nextId.value++, date: '12/21 (六)', time: '22:05', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '飛機預計起飛時間', redNote: '記得退稅', showNote: false },
+                        { id: nextId.value++, date: '12/21 (日)', time: '11:00', location: '自由活動/伴手禮採買 (淺草)', type: 'attraction', note: null, redNote: null, showNote: false },
+                        { id: nextId.value++, date: '12/21 (日)', time: '17:45', location: '前往成田機場 (NRT) 交通移動', type: 'transport', note: '建議保留 3 小時以上到機場', redNote: '成田第三航廈需步行 5–10 分鐘', showNote: false },
+                        { id: nextId.value++, date: '12/21 (日)', time: '22:05', location: '登機並準備搭乘班機回台灣', type: 'transport', note: '飛機預計起飛時間', redNote: '記得退稅', showNote: false },
                     ];
                 };
                 
@@ -682,7 +684,9 @@
                     const targetDate = currentDate.value;
                     let filtered = itineraryItems.value.filter(item => item.date === targetDate);
 
-                    if (targetDate === '12/18 (三)') {
+                    // *** START: 日期判斷更新 ***
+                    if (targetDate === '12/18 (四)') {
+                    // *** END: 日期判斷更新 ***
                         // 僅顯示選定方案或無方案的項目
                         filtered = filtered.filter(item => !item.option || item.option === dayTwoOption.value);
                     } else {
@@ -776,7 +780,7 @@
                 };
 
 
-                // --- 2. 記帳系統狀態與邏輯 ---
+                // --- 2. 記帳系統狀態與邏輯 (已更新日期) ---
                 const jpyToTwdRate = 0.201; 
                 const expenseCategories = ref(['餐飲', '交通', '住宿', '購物', '門票', '其他']);
 
@@ -785,10 +789,10 @@
                     if (stored) return JSON.parse(stored);
                     
                     return [
-                        { id: expenseNextId.value++, date: '12/17 (二)', description: '機票 (TWD)', amount: 16080, amountJpy: 0, category: '交通' }, 
-                        { id: expenseNextId.value++, date: '12/17 (二)', description: '河口湖巴士票', amount: 804, amountJpy: 4000, category: '交通' },
-                        { id: expenseNextId.value++, date: '12/18 (三)', description: '御殿場午餐', amount: 1206, amountJpy: 6000, category: '餐飲' },
-                        { id: expenseNextId.value++, date: '12/18 (三)', description: '箱根住宿', amount: 3618, amountJpy: 18000, category: '住宿' },
+                        { id: expenseNextId.value++, date: '12/17 (三)', description: '機票 (TWD)', amount: 16080, amountJpy: 0, category: '交通' }, 
+                        { id: expenseNextId.value++, date: '12/17 (三)', description: '河口湖巴士票', amount: 804, amountJpy: 4000, category: '交通' },
+                        { id: expenseNextId.value++, date: '12/18 (四)', description: '御殿場午餐', amount: 1206, amountJpy: 6000, category: '餐飲' },
+                        { id: expenseNextId.value++, date: '12/18 (四)', description: '箱根住宿', amount: 3618, amountJpy: 18000, category: '住宿' },
                     ];
                 };
 
