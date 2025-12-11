@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>東京旅遊規劃 App (完整行程管理 - 持久化)</title>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // 定義您的淺藍色為 app-primary
+                        'app-primary': {
+                            50: '#F0F7FF',    // 非常淺
+                            100: '#E1F0FF',   // 淺色背景
+                            200: '#C4E1FF',   // 您指定的主色 (用於邊框/淺色按鈕)
+                            600: '#3D9AE7',   // 深一點的主色 (用於文字/按鈕)
+                            700: '#307ACC',   // 更深的主色 (用於強調)
+                        },
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -82,7 +101,7 @@
 <body>
     <div id="app" class="app-shell">
 
-        <header class="p-4 bg-white text-violet-600 shadow-md sticky top-0 z-20 border-b border-neutral-200">
+        <header class="p-4 bg-white text-app-primary-600 shadow-md sticky top-0 z-20 border-b border-neutral-200">
             <h1 class="text-xl font-bold text-center">東京旅程助手</h1>
         </header>
 
@@ -93,7 +112,7 @@
                     :key="date"
                     @click="currentDate = date"
                     :class="{
-                        'bg-violet-100 text-violet-700 border-b-2 border-violet-600': currentDate === date,
+                        'bg-app-primary-100 text-app-primary-700 border-b-2 border-app-primary-600': currentDate === date,
                         'bg-neutral-100 text-neutral-600 hover:bg-neutral-200 transition border-b-2 border-transparent': currentDate !== date
                     }"
                     class="date-item flex-shrink-0 text-center py-2 px-3 rounded-xl text-sm font-semibold transition duration-300"
@@ -107,13 +126,13 @@
             
             <div v-if="activeTab === 'itinerary'">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-violet-700">
+                    <h2 class="text-2xl font-bold text-app-primary-700">
                         {{ currentDate }} 行程表
                         <span class="text-base font-normal text-neutral-500 ml-2">東京 {{ simulatedWeather }}</span>
                     </h2>
                     <button 
                         @click="openAddItemModal" 
-                        class="bg-violet-600 hover:bg-violet-500 text-white p-2 rounded-full shadow-lg transition duration-200 flex items-center">
+                        class="bg-app-primary-600 hover:bg-app-primary-500 text-white p-2 rounded-full shadow-lg transition duration-200 flex items-center">
                         <i class="ph ph-plus text-xl"></i>
                     </button>
                 </div>
@@ -126,14 +145,14 @@
                             :class="{'border-b border-neutral-200': !collapsedFlights[flight.id]}"
                         >
                             <div class="flex items-center">
-                                <i class="text-xl mr-2" :class="flight.type === '去程 (DEPARTURE)' ? 'ph ph-airplane-takeoff text-violet-600' : 'ph ph-airplane-landing text-violet-600'"></i>
+                                <i class="text-xl mr-2" :class="flight.type === '去程 (DEPARTURE)' ? 'ph ph-airplane-takeoff text-app-primary-600' : 'ph ph-airplane-landing text-app-primary-600'"></i>
                                 <span class="text-lg text-neutral-900">{{ flight.type }}：{{ flight.origin }} → {{ flight.destination }}</span>
                             </div>
                             <i class="ph text-lg text-neutral-500 transition-transform duration-300" :class="{'ph-caret-up': !collapsedFlights[flight.id], 'ph-caret-down': collapsedFlights[flight.id]}"></i>
                         </button>
                         <transition name="collapse">
                             <div v-if="!collapsedFlights[flight.id]" class="p-4 pt-0">
-                                <div class="p-4 flex border border-violet-100 rounded-xl">
+                                <div class="p-4 flex border border-app-primary-100 rounded-xl">
                                     <div class="flex-grow">
                                         <div class="flex items-center space-x-2 mb-3">
                                             <div class="flex flex-col">
@@ -150,7 +169,7 @@
                                     <div class="w-24 flex-shrink-0 ticket-perforation pl-3 ml-3 flex flex-col justify-between">
                                         <div class="text-right mb-2">
                                             <span class="text-xs text-neutral-500 block">航班號碼</span>
-                                            <span class="text-xl font-extrabold text-violet-700 block">{{ flight.flightNum }}</span>
+                                            <span class="text-xl font-extrabold text-app-primary-700 block">{{ flight.flightNum }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -160,18 +179,18 @@
                 </section>
 
 
-                <div v-if="currentDate === '12/18 (四)'" class="bg-white p-4 rounded-xl border-2 border-violet-300 mb-6 shadow-sm">
-                    <h3 class="font-semibold text-lg mb-3 text-violet-700">12/18 行程方案選擇</h3>
+                <div v-if="currentDate === '12/18 (四)'" class="bg-white p-4 rounded-xl border-2 border-app-primary-300 mb-6 shadow-sm">
+                    <h3 class="font-semibold text-lg mb-3 text-app-primary-700">12/18 行程方案選擇</h3>
                     <div class="flex space-x-3">
-                        <button @click="dayTwoOption = 'A'" :class="{'bg-violet-600 text-white': dayTwoOption === 'A', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-violet-100': dayTwoOption !== 'A'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
+                        <button @click="dayTwoOption = 'A'" :class="{'bg-app-primary-600 text-white': dayTwoOption === 'A', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-app-primary-100': dayTwoOption !== 'A'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
                             方案 A<br>(先去山中湖)
                         </button>
-                        <button @click="dayTwoOption = 'B'" :class="{'bg-violet-600 text-white': dayTwoOption === 'B', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-violet-100': dayTwoOption !== 'B'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
+                        <button @click="dayTwoOption = 'B'" :class="{'bg-app-primary-600 text-white': dayTwoOption === 'B', 'bg-neutral-100 text-neutral-600 border border-neutral-300 hover:bg-app-primary-100': dayTwoOption !== 'B'}" class="flex-1 py-2 rounded-xl font-bold transition text-sm">
                             方案 B<br>(直奔 Outlet)
                         </button>
                     </div>
                     <p class="text-xs text-neutral-500 mt-3 p-1 bg-neutral-50 rounded">
-                        目前選定: <span class="font-bold text-violet-600">{{ dayTwoOption === 'A' ? '方案 A (經過山中湖)' : '方案 B (直接前往御殿場 Outlet)' }}</span>
+                        目前選定: <span class="font-bold text-app-primary-600">{{ dayTwoOption === 'A' ? '方案 A (經過山中湖)' : '方案 B (直接前往御殿場 Outlet)' }}</span>
                     </p>
                 </div>
                 
@@ -187,7 +206,7 @@
                             <span class="text-lg font-black text-neutral-900">{{ item.time }}</span>
                             
                             <div v-if="item.duration !== 'N/A' && item.duration !== '結束'" 
-                                 class="absolute top-12 left-full -translate-x-1/2 mt-4 z-10 bg-violet-50 text-violet-700 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap shadow-sm border border-violet-200">
+                                 class="absolute top-12 left-full -translate-x-1/2 mt-4 z-10 bg-app-primary-50 text-app-primary-700 text-xs font-semibold px-2 py-1 rounded-full whitespace-nowrap shadow-sm border border-app-primary-200">
                                 <i class="ph ph-clock text-xs align-middle mr-0.5"></i>
                                 {{ item.duration }}
                             </div>
@@ -211,7 +230,7 @@
                                         </div>
                                     </button>
                                     
-                                    <button @click.stop="editItem(item)" class="text-violet-600 hover:text-violet-500 p-2 rounded-full hover:bg-neutral-100 transition flex-shrink-0">
+                                    <button @click.stop="editItem(item)" class="text-app-primary-600 hover:text-app-primary-500 p-2 rounded-full hover:bg-neutral-100 transition flex-shrink-0">
                                         <i class="ph ph-note-pencil text-lg"></i>
                                     </button>
                                 </div>
@@ -221,7 +240,7 @@
                                         <h4 class="text-sm font-bold text-neutral-600 mb-2">備註與細節 (可編輯)</h4>
                                         <textarea
                                             v-model="item.note"
-                                            class="w-full p-2 text-sm bg-neutral-50 border border-neutral-300 rounded-lg h-24 focus:ring-violet-500 focus:border-violet-500 transition resize-none whitespace-pre-wrap"
+                                            class="w-full p-2 text-sm bg-neutral-50 border border-neutral-300 rounded-lg h-24 focus:ring-app-primary-500 focus:border-app-primary-500 transition resize-none whitespace-pre-wrap"
                                             placeholder="在此輸入您想紀錄的細節、訂位號碼、注意事項等..."
                                             @input="saveItineraryLocally"
                                         ></textarea>
@@ -242,7 +261,7 @@
 
                 <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center p-4 z-30">
                     <div class="bg-white p-6 rounded-xl w-full max-w-sm shadow-2xl border border-neutral-200">
-                        <h3 class="text-xl font-bold mb-4" :class="editingItem ? 'text-violet-600' : 'text-green-600'">
+                        <h3 class="text-xl font-bold mb-4" :class="editingItem ? 'text-app-primary-600' : 'text-green-600'">
                             {{ editingItem ? '編輯行程' : '新增行程' }}
                         </h3>
 
@@ -279,7 +298,7 @@
                             
                             <div class="flex ml-auto space-x-3">
                                 <button @click="closeModal" class="px-4 py-2 text-neutral-600 bg-neutral-200 rounded-xl hover:bg-neutral-300 transition">取消</button>
-                                <button @click="saveItem" class="px-4 py-2 bg-violet-600 text-white font-bold rounded-xl hover:bg-violet-500 transition">
+                                <button @click="saveItem" class="px-4 py-2 bg-app-primary-600 text-white font-bold rounded-xl hover:bg-app-primary-500 transition">
                                     {{ editingItem ? '儲存變更' : '新增行程' }}
                                 </button>
                             </div>
@@ -289,20 +308,20 @@
             </div>
 
             <div v-else-if="activeTab === 'ledger'">
-                <h2 class="text-2xl font-bold mb-4 text-violet-700">旅遊記帳本</h2>
+                <h2 class="text-2xl font-bold mb-4 text-app-primary-700">旅遊記帳本</h2>
                 
-                <div class="bg-white text-neutral-900 p-4 rounded-xl border-2 border-violet-500 shadow-lg mb-6 flex justify-between items-center">
+                <div class="bg-white text-neutral-900 p-4 rounded-xl border-2 border-app-primary-500 shadow-lg mb-6 flex justify-between items-center">
                     <div>
                         <p class="text-sm font-medium opacity-80 text-neutral-600">總計已花費金額 (TWD)</p>
-                        <p class="text-4xl font-extrabold mt-1 text-violet-600">
+                        <p class="text-4xl font-extrabold mt-1 text-app-primary-600">
                             {{ totalTwdSpent.toFixed(0).toLocaleString() }}
                         </p>
                     </div>
-                    <i class="ph ph-receipt-magnifying-glass text-5xl opacity-80 text-violet-500"></i>
+                    <i class="ph ph-receipt-magnifying-glass text-5xl opacity-80 text-app-primary-500"></i>
                 </div>
 
                 <div class="bg-white p-4 rounded-xl shadow-md mb-6 border border-neutral-200">
-                    <h3 class="font-semibold text-lg mb-3 text-violet-600">新增支出 (雙向換算)</h3>
+                    <h3 class="font-semibold text-lg mb-3 text-app-primary-600">新增支出 (雙向換算)</h3>
                     
                     <div class="mb-4 p-2 bg-yellow-100 rounded-lg border border-yellow-300 text-sm font-medium text-yellow-800">
                         <i class="ph ph-arrow-left-right text-base align-middle mr-1 text-yellow-600"></i>
@@ -319,15 +338,15 @@
                         class="w-full p-2 bg-neutral-50 border border-neutral-300 text-neutral-900 rounded-lg mb-3" 
                         placeholder="請輸入日幣金額">
 
-                    <div class="bg-violet-100 p-3 rounded-lg mb-4 border border-violet-300">
-                        <label class="block text-sm font-medium text-violet-700">金額 (TWD 台幣)</label>
+                    <div class="bg-app-primary-100 p-3 rounded-lg mb-4 border border-app-primary-300">
+                        <label class="block text-sm font-medium text-app-primary-700">金額 (TWD 台幣)</label>
                         <input 
                             :value="calculatedTwdAmount" 
                             @input="updateAmount('twd', $event.target.value)" 
                             type="number" 
-                            class="w-full p-2 mt-1 bg-violet-50 border border-violet-300 text-violet-900 rounded-lg text-xl font-extrabold"
+                            class="w-full p-2 mt-1 bg-app-primary-50 border border-app-primary-300 text-app-primary-900 rounded-lg text-xl font-extrabold"
                             placeholder="請輸入台幣金額">
-                        <p class="text-xs text-violet-700 mt-2">
+                        <p class="text-xs text-app-primary-700 mt-2">
                              * 換算 JPY: {{ calculatedJpyAmount.toLocaleString(undefined, { maximumFractionDigits: 0 }) }}
                         </p>
                     </div>
@@ -338,17 +357,17 @@
                         <option v-for="c in expenseCategories" :key="c" class="bg-white text-neutral-900">{{ c }}</option>
                     </select>
 
-                    <button @click="addExpense" :disabled="!canAddExpense" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500">
+                    <button @click="addExpense" :disabled="!canAddExpense" class="w-full bg-app-primary-600 hover:bg-app-primary-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500">
                         記錄支出
                     </button>
                 </div>
 
-                <h3 class="font-bold text-lg mt-5 mb-3 text-violet-700 flex items-center">
+                <h3 class="font-bold text-lg mt-5 mb-3 text-app-primary-700 flex items-center">
                     <i class="ph ph-list-checks text-2xl mr-2"></i> 支出紀錄
                 </h3>
                 <div v-if="expenses.length > 0" class="space-y-3">
                     <div v-for="expense in sortedExpenses" :key="expense.id" 
-                         class="bg-white p-4 rounded-xl border border-neutral-200 mb-2 transition duration-150 hover:border-violet-500">
+                         class="bg-white p-4 rounded-xl border border-neutral-200 mb-2 transition duration-150 hover:border-app-primary-500">
                         <div class="flex justify-between items-center">
                             <div>
                                 <p class="font-bold text-neutral-900">{{ expense.description }}</p>
@@ -382,17 +401,17 @@
             </div>
 
             <div v-else-if="activeTab === 'map'">
-                <h2 class="text-2xl font-bold mb-4 text-violet-700">地圖與導航</h2>
+                <h2 class="text-2xl font-bold mb-4 text-app-primary-700">地圖與導航</h2>
                 
                 <div class="bg-yellow-100 p-4 rounded-xl border border-yellow-300 mb-6 text-sm text-yellow-800">
-                    <h3 class="font-semibold text-base mb-2 text-yellow-800 flex items-center">
+                    <h3 class="semibold text-base mb-2 text-yellow-800 flex items-center">
                         <i class="ph ph-map-pin-line text-xl mr-2 text-yellow-600"></i>
                         行程自動路線規劃
                     </h3>
                     <p class="mb-3 text-neutral-800">
                         我們已自動將 {{ currentDate }} 的所有行程地點組合成一條導航路線。
                     </p>
-                    <button @click="openItineraryRoute" :disabled="filteredItinerary.length === 0" class="w-full bg-violet-600 hover:bg-violet-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500 flex items-center justify-center">
+                    <button @click="openItineraryRoute" :disabled="filteredItinerary.length === 0" class="w-full bg-app-primary-600 hover:bg-app-primary-500 text-white font-bold py-2 rounded-xl transition disabled:bg-neutral-300 disabled:text-neutral-500 flex items-center justify-center">
                         <i class="ph ph-map-trifold text-xl mr-2"></i> 開啟 Google Maps 導航
                     </button>
                     <p class="text-xs text-neutral-600 mt-2">（將在新視窗中開啟多點路線）</p>
@@ -404,8 +423,8 @@
                 </div>
 
 
-                <div class="w-full h-80 bg-white rounded-xl shadow-inner flex flex-col items-center justify-center p-6 border-4 border-violet-500 border-dashed">
-                    <i class="ph ph-compass-tool text-6xl text-violet-600 mb-3"></i>
+                <div class="w-full h-80 bg-white rounded-xl shadow-inner flex flex-col items-center justify-center p-6 border-4 border-app-primary-500 border-dashed">
+                    <i class="ph ph-compass-tool text-6xl text-app-primary-600 mb-3"></i>
                     <p class="text-center text-neutral-800 font-semibold">
                         地圖顯示區 (行程已自動釘選)
                     </p>
@@ -485,15 +504,15 @@
 
         <nav class="bg-white border-t border-neutral-200 p-2 sticky bottom-0 z-20 shadow-xl">
             <div class="flex justify-around">
-                <button @click="activeTab = 'itinerary'" :class="{'text-violet-600 border-violet-600': activeTab === 'itinerary', 'text-neutral-500 border-transparent': activeTab !== 'itinerary'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'itinerary'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'itinerary', 'text-neutral-500 border-transparent': activeTab !== 'itinerary'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-calendar-blank text-2xl"></i>
                     <span class="text-xs font-medium">行程</span>
                 </button>
-                <button @click="activeTab = 'ledger'" :class="{'text-violet-600 border-violet-600': activeTab === 'ledger', 'text-neutral-500 border-transparent': activeTab !== 'ledger'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'ledger'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'ledger', 'text-neutral-500 border-transparent': activeTab !== 'ledger'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-currency-circle-dollar text-2xl"></i>
                     <span class="text-xs font-medium">記帳</span>
                 </button>
-                <button @click="activeTab = 'map'" :class="{'text-violet-600 border-violet-600': activeTab === 'map', 'text-neutral-500 border-transparent': activeTab !== 'map'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
+                <button @click="activeTab = 'map'" :class="{'text-app-primary-600 border-app-primary-600': activeTab === 'map', 'text-neutral-500 border-transparent': activeTab !== 'map'}" class="flex flex-col items-center px-2 py-2 border-b-2 transition duration-200">
                     <i class="ph ph-map-pin text-2xl"></i>
                     <span class="text-xs font-medium">地圖</span>
                 </button>
@@ -550,10 +569,8 @@
                 // 預設為方案 A (先去山中湖)
                 const dayTwoOption = ref('A'); 
 
-                // *** START: 日期更新 ***
                 const travelDates = ref(['12/17 (三)', '12/18 (四)', '12/19 (五)', '12/20 (六)', '12/21 (日)']);
                 const currentDate = ref('12/17 (三)');
-                // *** END: 日期更新 ***
                 
                 const simulatedWeather = computed(() => {
                     const date = currentDate.value;
@@ -595,9 +612,9 @@
                         case 'restaurant':
                             return { iconClass: 'ph-fork-knife', dotColor: 'bg-red-500' };
                         case 'transport':
-                            return { iconClass: 'ph-car', dotColor: 'bg-blue-500' };
+                            return { iconClass: 'ph-car', dotColor: 'bg-blue-500' }; // 這裡使用 blue-500 保留交通的藍色，避免與 app-primary 混淆
                         default:
-                            return { iconClass: 'ph-circle', dotColor: 'bg-violet-600' };
+                            return { iconClass: 'ph-circle', dotColor: 'bg-app-primary-600' }; // 預設使用 app-primary
                     }
                 };
 
@@ -684,9 +701,7 @@
                     const targetDate = currentDate.value;
                     let filtered = itineraryItems.value.filter(item => item.date === targetDate);
 
-                    // *** START: 日期判斷更新 ***
                     if (targetDate === '12/18 (四)') {
-                    // *** END: 日期判斷更新 ***
                         // 僅顯示選定方案或無方案的項目
                         filtered = filtered.filter(item => !item.option || item.option === dayTwoOption.value);
                     } else {
